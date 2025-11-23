@@ -3,7 +3,7 @@
 import React from 'react';
 import { useParams } from 'next/navigation';
 import { Navbar } from '@/components/Navbar';
-import { Footer } from '@/components/Footer';
+import Footer from '@/components/Footer';
 import { Button } from '@/components/ui/Button';
 
 // Mock Data - Replace with API call later
@@ -59,7 +59,7 @@ export default function ProductDetailsPage() {
                         <div className="mb-8">
                             <span className="text-gold text-sm uppercase tracking-widest">{product.category}</span>
                             <h1 className="text-4xl md:text-5xl font-serif text-black mt-2 mb-4">{product.name}</h1>
-                            <p className="text-3xl font-light text-gray-900">₹{product.price.toLocaleString()}</p>
+                            <p className="text-3xl font-light text-gray-900">Price on Request</p>
                         </div>
 
                         <div className="space-y-6 mb-10">

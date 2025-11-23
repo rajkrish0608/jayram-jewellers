@@ -15,14 +15,14 @@ const poppins = Poppins({
 });
 
 export const metadata: Metadata = {
-  title: "Jayram Jewellers | Exquisite Jewellery for Every Occasion",
-  description: "Discover the finest collection of gold, diamond, and silver jewellery at Jayram Jewellers. Certified purity, lifetime buyback, and custom designs.",
+  title: "JAYRAM Jewellers | Exquisite Jewellery for Every Occasion",
+  description: "Discover the finest collection of gold, diamond, and silver jewellery at JAYRAM Jewellers. Certified purity, lifetime buyback, and custom designs.",
   keywords: "gold jewellery, diamond rings, bridal jewellery, indian jewellers, gold rate, buy gold online",
   openGraph: {
-    title: "Jayram Jewellers | Exquisite Jewellery",
+    title: "JAYRAM Jewellers | Exquisite Jewellery",
     description: "Handcrafted gold and diamond masterpieces for your special moments.",
     url: "https://jayramjewellers.com",
-    siteName: "Jayram Jewellers",
+    siteName: "JAYRAM Jewellers",
     images: [
       {
         url: "https://jayramjewellers.com/og-image.jpg",
@@ -43,18 +43,18 @@ export default function RootLayout({
   const jsonLd = {
     "@context": "https://schema.org",
     "@type": "JewelryStore",
-    "name": "Jayram Jewellers",
+    "name": "JAYRAM Jewellers",
     "image": "https://jayramjewellers.com/logo.png",
     "description": "Premium jewellery store offering BIS Hallmarked gold, certified diamonds, and silver articles.",
     "address": {
       "@type": "PostalAddress",
-      "streetAddress": "123, Jewellery Market, Main Road",
-      "addressLocality": "Mumbai",
-      "addressRegion": "Maharashtra",
-      "postalCode": "400001",
+      "streetAddress": "Gola Road, Garh Nokha",
+      "addressLocality": "Sasaram",
+      "addressRegion": "Bihar",
+      "postalCode": "802215",
       "addressCountry": "IN"
     },
-    "telephone": "+919876543210",
+    "telephone": "+919341847997",
     "openingHours": "Mo-Sa 10:00-20:00",
     "priceRange": "₹₹₹"
   };

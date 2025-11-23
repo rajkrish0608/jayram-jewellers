@@ -4,7 +4,7 @@ import React, { useState } from 'react';
 import { useParams } from 'next/navigation';
 import Link from 'next/link';
 import { Navbar } from '@/components/Navbar';
-import { Footer } from '@/components/Footer';
+import Footer from '@/components/Footer';
 import { Button } from '@/components/ui/Button';
 
 const BLOG_POSTS = [

@@ -4,6 +4,11 @@ import React from 'react';
 import { Button } from './ui/Button';
 
 export const ContactSection = () => {
+    const handleSubmit = (e: React.FormEvent) => {
+        e.preventDefault();
+        alert('Message sent successfully!');
+    };
+
     return (
         <section className="py-20 bg-black text-white relative overflow-hidden">
             {/* Background Pattern */}
@@ -26,7 +31,7 @@ export const ContactSection = () => {
                                 </div>
                                 <div>
                                     <h4 className="text-xl font-serif mb-1">Address</h4>
-                                    <p className="text-gray-400">123, Jewellery Market, Main Road,<br />Mumbai, Maharashtra 400001</p>
+                                    <p className="text-gray-400">Gola Road, Garh Nokha,<br />Sasaram, Rohatas, Bihar</p>
                                 </div>
                             </div>
 
@@ -38,8 +43,7 @@ export const ContactSection = () => {
                                 </div>
                                 <div>
                                     <h4 className="text-xl font-serif mb-1">Phone</h4>
-                                    <p className="text-gray-400">+91 98765 43210</p>
-                                    <p className="text-gray-400">+91 22 1234 5678</p>
+                                    <p className="text-gray-400">+91 93418 47997</p>
                                 </div>
                             </div>
 
@@ -51,7 +55,7 @@ export const ContactSection = () => {
                                 </div>
                                 <div>
                                     <h4 className="text-xl font-serif mb-1">Email</h4>
-                                    <p className="text-gray-400">info@jayramjewellers.com</p>
+                                    <p className="text-gray-400">bittukumar93418@gmail.com</p>
                                 </div>
                             </div>
                         </div>
@@ -73,18 +77,18 @@ export const ContactSection = () => {
                     <div className="w-full md:w-1/2">
                         <div className="bg-white/5 p-8 rounded-2xl border border-white/10 backdrop-blur-sm">
                             <h3 className="text-2xl font-serif mb-6">Send us a Message</h3>
-                            <form className="space-y-6">
+                            <form className="space-y-6" onSubmit={handleSubmit}>
                                 <div>
                                     <label className="block text-sm text-gray-400 mb-2">Your Name</label>
-                                    <input type="text" className="w-full bg-black/50 border border-gray-700 rounded-lg px-4 py-3 text-white focus:border-gold focus:outline-none transition-colors" placeholder="John Doe" />
+                                    <input type="text" className="w-full bg-black/50 border border-gray-700 rounded-lg px-4 py-3 text-white focus:border-gold focus:outline-none transition-colors" placeholder="John Doe" required />
                                 </div>
                                 <div>
                                     <label className="block text-sm text-gray-400 mb-2">Phone Number</label>
-                                    <input type="tel" className="w-full bg-black/50 border border-gray-700 rounded-lg px-4 py-3 text-white focus:border-gold focus:outline-none transition-colors" placeholder="+91 98765 43210" />
+                                    <input type="tel" className="w-full bg-black/50 border border-gray-700 rounded-lg px-4 py-3 text-white focus:border-gold focus:outline-none transition-colors" placeholder="+91 98765 43210" required />
                                 </div>
                                 <div>
                                     <label className="block text-sm text-gray-400 mb-2">Message</label>
-                                    <textarea rows={4} className="w-full bg-black/50 border border-gray-700 rounded-lg px-4 py-3 text-white focus:border-gold focus:outline-none transition-colors" placeholder="I'm interested in..." />
+                                    <textarea rows={4} className="w-full bg-black/50 border border-gray-700 rounded-lg px-4 py-3 text-white focus:border-gold focus:outline-none transition-colors" placeholder="I'm interested in..." required />
                                 </div>
                                 <Button variant="primary" className="w-full">Send Message</Button>
                             </form>

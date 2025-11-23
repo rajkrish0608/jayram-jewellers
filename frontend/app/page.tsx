@@ -7,7 +7,7 @@ import { AboutSection } from "@/components/AboutSection";
 import { Testimonials } from "@/components/Testimonials";
 import { BlogPreview } from "@/components/BlogPreview";
 import { ContactSection } from "@/components/ContactSection";
-import { Footer } from "@/components/Footer";
+import Footer from "@/components/Footer";
 
 export default function Home() {
   return (

@@ -15,7 +15,7 @@ export default function AdminLoginPage() {
         setError('');
 
         // Mock Login for Demo (Replace with API call)
-        if (email === 'admin@jayram.com' && password === 'admin123') {
+        if (email === 'bittukumar93418@gmail.com' && password === '93148@aman') {
             localStorage.setItem('adminInfo', JSON.stringify({ name: 'Admin', email }));
             router.push('/admin/dashboard');
         } else {
@@ -48,7 +48,7 @@ export default function AdminLoginPage() {
                             value={email}
                             onChange={(e) => setEmail(e.target.value)}
                             className="w-full px-4 py-3 rounded-lg border border-gray-300 focus:border-gold focus:ring-1 focus:ring-gold outline-none transition-colors text-black bg-white"
-                            placeholder="admin@jayram.com"
+                            placeholder="bittukumar93418@gmail.com"
                             required
                         />
                     </div>

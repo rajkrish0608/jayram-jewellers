@@ -2,7 +2,7 @@
 
 import React, { useState } from 'react';
 import { Navbar } from '@/components/Navbar';
-import { Footer } from '@/components/Footer';
+import Footer from '@/components/Footer';
 import { ProductCard, Product } from '@/components/ProductCard';
 
 // Mock Data - Replace with API call later

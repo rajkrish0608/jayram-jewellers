@@ -10,15 +10,25 @@ export const GoldRateTicker = () => {
         silver: 88.50
     });
 
-    // Mock auto-update
     useEffect(() => {
-        const interval = setInterval(() => {
-            setRates(prev => ({
-                gold22k: prev.gold22k + (Math.random() > 0.5 ? 10 : -10),
-                gold24k: prev.gold24k + (Math.random() > 0.5 ? 10 : -10),
-                silver: prev.silver + (Math.random() > 0.5 ? 0.5 : -0.5)
-            }));
-        }, 5000);
+        const fetchRates = async () => {
+            try {
+                const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/gold-rates`);
+                if (!res.ok) throw new Error('Failed to fetch rates');
+                const data = await res.json();
+                setRates({
+                    gold22k: data.gold22k,
+                    gold24k: data.gold24k,
+                    silver: data.silver
+                });
+            } catch (err) {
+                console.error('Failed to fetch ticker rates:', err);
+            }
+        };
+
+        fetchRates();
+        // Refresh every minute
+        const interval = setInterval(fetchRates, 60000);
         return () => clearInterval(interval);
     }, []);
 

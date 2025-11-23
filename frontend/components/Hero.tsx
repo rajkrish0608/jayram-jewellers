@@ -1,4 +1,5 @@
 import React from 'react';
+import Link from 'next/link';
 import { Button } from './ui/Button';
 
 export const Hero = () => {
@@ -17,7 +18,7 @@ export const Hero = () => {
             {/* Content */}
             <div className="relative z-10 h-full flex flex-col items-center justify-center text-center px-4 md:px-0">
                 <h2 className="text-gold text-lg md:text-xl uppercase tracking-[0.3em] mb-4 animate-fade-in-up">
-                    Welcome to Jayram Jewellers
+                    Welcome to JAYRAM Jewellers
                 </h2>
                 <h1 className="text-4xl md:text-6xl lg:text-7xl font-serif text-white mb-6 leading-tight max-w-4xl animate-fade-in-up delay-100">
                     Exquisite Jewellery for <br />
@@ -28,8 +29,12 @@ export const Hero = () => {
                 </p>
 
                 <div className="flex flex-col md:flex-row gap-4 animate-fade-in-up delay-300">
-                    <Button variant="primary" size="lg">View Collection</Button>
-                    <Button variant="outline" size="lg">Book Appointment</Button>
+                    <Link href="/shop">
+                        <Button variant="primary" size="lg">View Collection</Button>
+                    </Link>
+                    <Link href="/contact">
+                        <Button variant="outline" size="lg">Book Appointment</Button>
+                    </Link>
                 </div>
             </div>
 

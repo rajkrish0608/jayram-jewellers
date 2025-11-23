@@ -2,7 +2,7 @@
 
 import React from 'react';
 import { Navbar } from '@/components/Navbar';
-import { Footer } from '@/components/Footer';
+import Footer from '@/components/Footer';
 import { GoldRateTicker } from '@/components/GoldRateTicker';
 
 export default function GoldRatePage() {
@@ -10,16 +10,41 @@ export default function GoldRatePage() {
     const [purity, setPurity] = React.useState('22K Gold');
     const [calculatedPrice, setCalculatedPrice] = React.useState<number | null>(null);
 
-    // Mock rates matching the ticker
-    const rates = {
-        '22K Gold': 6850,
-        '24K Gold': 7450,
-        'Silver': 88.50
-    };
+    const [rates, setRates] = React.useState<{ '22K Gold': number; '24K Gold': number; 'Silver': number } | null>(null);
+    const [loading, setLoading] = React.useState(true);
+    const [error, setError] = React.useState('');
+
+    React.useEffect(() => {
+        const fetchRates = async () => {
+            try {
+                const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/gold-rates`);
+                if (!res.ok) throw new Error('Failed to fetch rates');
+                const data = await res.json();
+                setRates({
+                    '22K Gold': data.gold22k,
+                    '24K Gold': data.gold24k,
+                    'Silver': data.silver
+                });
+            } catch (err) {
+                console.error(err);
+                setError('Failed to load live rates. Using default rates.');
+                // Fallback rates
+                setRates({
+                    '22K Gold': 6850,
+                    '24K Gold': 7450,
+                    'Silver': 88.50
+                });
+            } finally {
+                setLoading(false);
+            }
+        };
+
+        fetchRates();
+    }, []);
 
     const handleCalculate = () => {
         const w = parseFloat(weight);
-        if (!w || isNaN(w)) return;
+        if (!w || isNaN(w) || !rates) return;
 
         const rate = rates[purity as keyof typeof rates];
         setCalculatedPrice(w * rate);
@@ -80,9 +105,45 @@ export default function GoldRatePage() {
                             Calculate Price
                         </button>
                     </div>
+
+
+                    {/* Price Alert Section */}
+                    <div className="max-w-3xl mx-auto mt-12 bg-black text-white p-8 rounded-2xl border border-gray-800">
+                        <h3 className="font-serif text-2xl mb-6 text-center text-gold">Set Price Alert</h3>
+                        <p className="text-center text-gray-400 mb-8">Get notified when gold rate reaches your target price.</p>
+
+                        <form className="grid grid-cols-1 md:grid-cols-3 gap-6" onSubmit={(e) => { e.preventDefault(); alert('Price alert set successfully!'); }}>
+                            <div>
+                                <label className="block text-sm font-medium text-gray-400 mb-2">Target Rate (₹/10g)</label>
+                                <input
+                                    type="number"
+                                    className="w-full px-4 py-3 rounded-lg border border-gray-700 bg-gray-900 text-white focus:border-gold outline-none"
+                                    placeholder="Ex: 65000"
+                                    required
+                                />
+                            </div>
+                            <div>
+                                <label className="block text-sm font-medium text-gray-400 mb-2">Email / Phone</label>
+                                <input
+                                    type="text"
+                                    className="w-full px-4 py-3 rounded-lg border border-gray-700 bg-gray-900 text-white focus:border-gold outline-none"
+                                    placeholder="Contact info"
+                                    required
+                                />
+                            </div>
+                            <div className="flex items-end">
+                                <button
+                                    type="submit"
+                                    className="w-full bg-gold text-black py-3 rounded-lg hover:bg-gold-light transition-colors font-medium"
+                                >
+                                    Set Alert
+                                </button>
+                            </div>
+                        </form>
+                    </div>
                 </div>
             </div>
             <Footer />
-        </main>
+        </main >
     );
 }
