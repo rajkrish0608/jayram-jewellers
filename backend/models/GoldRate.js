@@ -1,7 +1,7 @@
 const mongoose = require('mongoose');
 
 const goldRateSchema = mongoose.Schema({
-    gold22k: {
+    gold18k: {
         type: Number,
         required: true,
     },

@@ -5,6 +5,10 @@ const inquirySchema = mongoose.Schema({
         type: String,
         required: true,
     },
+    email: {
+        type: String,
+        required: true,
+    },
     phone: {
         type: String,
         required: true,
@@ -15,8 +19,8 @@ const inquirySchema = mongoose.Schema({
     },
     status: {
         type: String,
+        enum: ['New', 'Read', 'Replied'],
         default: 'New',
-        enum: ['New', 'Contacted', 'Closed'],
     },
 }, {
     timestamps: true,

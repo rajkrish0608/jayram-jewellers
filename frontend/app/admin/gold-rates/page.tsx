@@ -7,7 +7,7 @@ import AdminGuard from '@/components/AdminGuard';
 
 export default function GoldRateManagerPage() {
     const [rates, setRates] = useState({
-        gold22k: 0,
+        gold18k: 0,
         gold24k: 0,
         silver: 0
     });
@@ -20,7 +20,7 @@ export default function GoldRateManagerPage() {
                 if (res.ok) {
                     const data = await res.json();
                     setRates({
-                        gold22k: data.gold22k,
+                        gold18k: data.gold18k,
                         gold24k: data.gold24k,
                         silver: data.silver
                     });
@@ -74,13 +74,13 @@ export default function GoldRateManagerPage() {
 
                     <form onSubmit={handleUpdate} className="space-y-6">
                         <div>
-                            <label className="block text-gray-700 text-sm font-bold mb-2">Gold 22K (per gram)</label>
+                            <label className="block text-gray-700 text-sm font-bold mb-2">Gold 18K (per gram)</label>
                             <div className="relative">
                                 <span className="absolute left-4 top-3 text-gray-500">₹</span>
                                 <input
-                                    name="gold22k"
+                                    name="gold18k"
                                     type="number"
-                                    value={rates.gold22k}
+                                    value={rates.gold18k}
                                     onChange={handleChange}
                                     className="w-full pl-8 pr-4 py-3 rounded-lg border border-gray-300 focus:border-gold focus:ring-1 focus:ring-gold outline-none text-black bg-white"
                                     required

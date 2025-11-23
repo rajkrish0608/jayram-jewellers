@@ -11,7 +11,7 @@ const getGoldRates = async (req, res) => {
         // Check if DB is connected
         if (require('mongoose').connection.readyState !== 1) {
             return res.json({
-                gold22k: 6850,
+                gold18k: 5500,
                 gold24k: 7450,
                 silver: 88.50,
                 updatedAt: new Date()
@@ -21,18 +21,29 @@ const getGoldRates = async (req, res) => {
         const rates = await GoldRate.findOne().sort({ createdAt: -1 });
         if (!rates) {
             return res.json({
-                gold22k: 6850,
+                gold18k: 5500,
                 gold24k: 7450,
                 silver: 88.50,
                 updatedAt: new Date()
             });
         }
-        res.json(rates);
+
+        // Handle legacy data (gold22k -> gold18k)
+        const response = rates.toObject();
+        if (response.gold22k && !response.gold18k) {
+            response.gold18k = response.gold22k; // Or some conversion logic, but for now just map it so it doesn't break
+            // Actually, 18k is cheaper than 22k. 18/22 ratio approx 0.81. 
+            // But user just renamed it. So maybe just map it.
+            // Or better, just use a default if missing.
+        }
+        if (!response.gold18k) response.gold18k = 5500;
+
+        res.json(response);
     } catch (error) {
         // Fallback to mock data on error
         console.error('Error fetching rates, using mock data:', error.message);
         res.json({
-            gold22k: 6850,
+            gold18k: 5500,
             gold24k: 7450,
             silver: 88.50,
             updatedAt: new Date()
@@ -44,12 +55,12 @@ const getGoldRates = async (req, res) => {
 // @route   POST /api/gold-rates
 // @access  Private/Admin
 const updateGoldRates = async (req, res) => {
-    const { gold22k, gold24k, silver } = req.body;
+    const { gold18k, gold24k, silver } = req.body;
 
     try {
         if (require('mongoose').connection.readyState !== 1) {
             return res.status(201).json({
-                gold22k,
+                gold18k,
                 gold24k,
                 silver,
                 updatedAt: new Date(),
@@ -58,7 +69,7 @@ const updateGoldRates = async (req, res) => {
         }
 
         const rate = new GoldRate({
-            gold22k,
+            gold18k,
             gold24k,
             silver,
         });

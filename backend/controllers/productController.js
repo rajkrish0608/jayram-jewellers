@@ -53,15 +53,43 @@ const createProduct = async (req, res) => {
     }
 };
 
+// @desc    Update a product
+// @route   PUT /api/products/:id
+// @access  Private/Admin
+const updateProduct = async (req, res) => {
+    const { name, type, category, weight, price, description, image, featured } = req.body;
+
+    try {
+        const product = await Product.findById(req.params.id);
+
+        if (product) {
+            product.name = name || product.name;
+            product.type = type || product.type;
+            product.category = category || product.category;
+            product.weight = weight || product.weight;
+            product.price = price !== undefined ? price : product.price;
+            product.description = description || product.description;
+            product.image = image || product.image;
+            product.featured = featured !== undefined ? featured : product.featured;
+
+            const updatedProduct = await product.save();
+            res.json(updatedProduct);
+        } else {
+            res.status(404).json({ message: 'Product not found' });
+        }
+    } catch (error) {
+        res.status(400).json({ message: 'Invalid product data' });
+    }
+};
+
 // @desc    Delete a product
 // @route   DELETE /api/products/:id
 // @access  Private/Admin
 const deleteProduct = async (req, res) => {
     try {
-        const product = await Product.findById(req.params.id);
+        const product = await Product.findByIdAndDelete(req.params.id);
 
         if (product) {
-            await product.remove();
             res.json({ message: 'Product removed' });
         } else {
             res.status(404).json({ message: 'Product not found' });
@@ -75,5 +103,6 @@ module.exports = {
     getProducts,
     getProductById,
     createProduct,
+    updateProduct,
     deleteProduct,
 };

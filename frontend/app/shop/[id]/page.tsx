@@ -15,7 +15,7 @@ const PRODUCTS = [
         price: 150000,
         weight: 25.5,
         category: 'Necklaces',
-        description: 'A masterpiece of traditional craftsmanship, this Royal Kundan Necklace features intricate detailing and premium quality stones set in 22K gold. Perfect for weddings and special occasions.',
+        description: 'A masterpiece of traditional craftsmanship, this Royal Kundan Necklace features intricate detailing and premium quality stones set in 18K gold. Perfect for weddings and special occasions.',
         image: 'https://images.unsplash.com/photo-1599643478518-17488fbbcd75?q=80&w=1974&auto=format&fit=crop',
         images: [
             'https://images.unsplash.com/photo-1599643478518-17488fbbcd75?q=80&w=1974&auto=format&fit=crop',
@@ -68,7 +68,7 @@ export default function ProductDetailsPage() {
                             <div className="grid grid-cols-2 gap-6 p-6 bg-off-white rounded-xl">
                                 <div>
                                     <p className="text-gray-500 text-sm mb-1">Purity</p>
-                                    <p className="font-medium">22K Gold</p>
+                                    <p className="font-medium">18K Gold</p>
                                 </div>
                                 <div>
                                     <p className="text-gray-500 text-sm mb-1">Weight</p>

@@ -5,7 +5,7 @@ import { Button } from './ui/Button';
 
 export const GoldRateTicker = () => {
     const [rates, setRates] = useState({
-        gold22k: 6850,
+        gold18k: 5500,
         gold24k: 7450,
         silver: 88.50
     });
@@ -17,7 +17,7 @@ export const GoldRateTicker = () => {
                 if (!res.ok) throw new Error('Failed to fetch rates');
                 const data = await res.json();
                 setRates({
-                    gold22k: data.gold22k,
+                    gold18k: data.gold18k,
                     gold24k: data.gold24k,
                     silver: data.silver
                 });
@@ -43,16 +43,16 @@ export const GoldRateTicker = () => {
 
                     <div className="flex flex-wrap justify-center gap-8 md:gap-16">
                         <div className="text-center">
-                            <p className="text-gray-400 text-xs uppercase tracking-wider mb-1">Gold 22K (1g)</p>
-                            <p className="text-3xl font-serif text-white">₹{rates.gold22k.toLocaleString()}</p>
+                            <p className="text-gray-400 text-xs uppercase tracking-wider mb-1">Gold 18K (1g)</p>
+                            <p className="text-3xl font-serif text-white">₹{(rates.gold18k || 0).toLocaleString()}</p>
                         </div>
                         <div className="text-center">
                             <p className="text-gray-400 text-xs uppercase tracking-wider mb-1">Gold 24K (1g)</p>
-                            <p className="text-3xl font-serif text-gold">₹{rates.gold24k.toLocaleString()}</p>
+                            <p className="text-3xl font-serif text-gold">₹{(rates.gold24k || 0).toLocaleString()}</p>
                         </div>
                         <div className="text-center">
                             <p className="text-gray-400 text-xs uppercase tracking-wider mb-1">Silver (1g)</p>
-                            <p className="text-3xl font-serif text-gray-300">₹{rates.silver.toFixed(2)}</p>
+                            <p className="text-3xl font-serif text-gray-300">₹{(rates.silver || 0).toFixed(2)}</p>
                         </div>
                     </div>
 

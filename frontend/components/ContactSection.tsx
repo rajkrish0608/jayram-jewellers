@@ -1,12 +1,49 @@
 'use client';
 
-import React from 'react';
+import React, { useState } from 'react';
 import { Button } from './ui/Button';
 
 export const ContactSection = () => {
-    const handleSubmit = (e: React.FormEvent) => {
+    const [formData, setFormData] = useState({
+        name: '',
+        phone: '',
+        message: ''
+    });
+    const [loading, setLoading] = useState(false);
+
+    const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
-        alert('Message sent successfully!');
+        setLoading(true);
+
+        try {
+            const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/inquiries`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(formData)
+            });
+
+            if (res.ok) {
+                alert('Message sent successfully!');
+                setFormData({ name: '', phone: '', message: '' });
+            } else {
+                alert('Failed to send message. Please try again.');
+            }
+        } catch (error) {
+            console.error('Error sending message:', error);
+            alert('An error occurred. Please try again.');
+        } finally {
+            setLoading(false);
+        }
+    };
+
+    const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+        const { name, value } = e.target;
+        setFormData(prevData => ({
+            ...prevData,
+            [name]: value
+        }));
     };
 
     return (
@@ -31,7 +68,7 @@ export const ContactSection = () => {
                                 </div>
                                 <div>
                                     <h4 className="text-xl font-serif mb-1">Address</h4>
-                                    <p className="text-gray-400">Gola Road, Garh Nokha,<br />Sasaram, Rohatas, Bihar</p>
+                                    <p className="text-gray-400">Gola Road, Garh Nokha,<br />Rohatas, Bihar</p>
                                 </div>
                             </div>
 

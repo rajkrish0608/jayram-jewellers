@@ -1,14 +1,17 @@
 'use client';
 
-import React, { useState } from 'react';
-import { useRouter } from 'next/navigation';
+import React, { useState, useEffect } from 'react';
+import { useRouter, useParams } from 'next/navigation';
 import { Button } from '@/components/ui/Button';
-
 import AdminGuard from '@/components/AdminGuard';
 
-export default function AddProductPage() {
+export default function EditProductPage() {
     const router = useRouter();
+    const params = useParams();
+    const { id } = params;
+
     const [loading, setLoading] = useState(false);
+    const [fetching, setFetching] = useState(true);
     const [formData, setFormData] = useState({
         name: '',
         type: 'Gold',
@@ -20,6 +23,38 @@ export default function AddProductPage() {
         featured: false
     });
 
+    useEffect(() => {
+        const fetchProduct = async () => {
+            try {
+                const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/products/${id}`);
+                if (res.ok) {
+                    const data = await res.json();
+                    setFormData({
+                        name: data.name,
+                        type: data.type,
+                        category: data.category,
+                        price: data.price || '',
+                        weight: data.weight,
+                        description: data.description,
+                        image: data.image,
+                        featured: data.featured
+                    });
+                } else {
+                    alert('Product not found');
+                    router.push('/admin/products');
+                }
+            } catch (error) {
+                console.error('Error fetching product:', error);
+            } finally {
+                setFetching(false);
+            }
+        };
+
+        if (id) {
+            fetchProduct();
+        }
+    }, [id, router]);
+
     const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
         const value = e.target.type === 'checkbox' ? (e.target as HTMLInputElement).checked : e.target.value;
         setFormData({ ...formData, [e.target.name]: value });
@@ -30,8 +65,8 @@ export default function AddProductPage() {
         setLoading(true);
 
         try {
-            const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/products`, {
-                method: 'POST',
+            const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/products/${id}`, {
+                method: 'PUT',
                 headers: {
                     'Content-Type': 'application/json'
                 },
@@ -42,21 +77,25 @@ export default function AddProductPage() {
                 router.push('/admin/products');
             } else {
                 const data = await res.json();
-                alert(data.message || 'Failed to create product');
+                alert(data.message || 'Failed to update product');
             }
         } catch (error) {
-            console.error('Error creating product:', error);
+            console.error('Error updating product:', error);
             alert('An error occurred. Please try again.');
         } finally {
             setLoading(false);
         }
     };
 
+    if (fetching) {
+        return <div className="p-8 text-center">Loading product details...</div>;
+    }
+
     return (
         <AdminGuard>
             <div className="max-w-3xl mx-auto">
                 <div className="flex items-center justify-between mb-8">
-                    <h1 className="text-3xl font-bold text-gray-800">Add New Product</h1>
+                    <h1 className="text-3xl font-bold text-gray-800">Edit Product</h1>
                     <Button variant="outline" size="sm" onClick={() => router.back()} className="!text-gray-600 !border-gray-300 hover:!bg-gray-100">
                         Cancel
                     </Button>
@@ -124,7 +163,7 @@ export default function AddProductPage() {
 
                         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                             <div>
-                                <label className="block text-gray-700 text-sm font-bold mb-2">Price (₹)</label>
+                                <label className="block text-gray-700 text-sm font-bold mb-2">Price (₹) (Optional)</label>
                                 <input
                                     name="price"
                                     type="number"
@@ -197,7 +236,7 @@ export default function AddProductPage() {
 
                         <div className="pt-4">
                             <Button variant="primary" className="w-full py-3" disabled={loading}>
-                                {loading ? 'Creating...' : 'Create Product'}
+                                {loading ? 'Updating...' : 'Update Product'}
                             </Button>
                         </div>
                     </form>

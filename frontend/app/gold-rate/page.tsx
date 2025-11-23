@@ -6,11 +6,11 @@ import Footer from '@/components/Footer';
 import { GoldRateTicker } from '@/components/GoldRateTicker';
 
 export default function GoldRatePage() {
-    const [weight, setWeight] = React.useState('');
-    const [purity, setPurity] = React.useState('22K Gold');
+    const [weight, setWeight] = React.useState(1);
+    const [purity, setPurity] = React.useState('18K Gold');
     const [calculatedPrice, setCalculatedPrice] = React.useState<number | null>(null);
 
-    const [rates, setRates] = React.useState<{ '22K Gold': number; '24K Gold': number; 'Silver': number } | null>(null);
+    const [rates, setRates] = React.useState<{ '18K Gold': number; '24K Gold': number; 'Silver': number } | null>(null);
     const [loading, setLoading] = React.useState(true);
     const [error, setError] = React.useState('');
 
@@ -21,7 +21,7 @@ export default function GoldRatePage() {
                 if (!res.ok) throw new Error('Failed to fetch rates');
                 const data = await res.json();
                 setRates({
-                    '22K Gold': data.gold22k,
+                    '18K Gold': data.gold18k,
                     '24K Gold': data.gold24k,
                     'Silver': data.silver
                 });
@@ -30,7 +30,7 @@ export default function GoldRatePage() {
                 setError('Failed to load live rates. Using default rates.');
                 // Fallback rates
                 setRates({
-                    '22K Gold': 6850,
+                    '18K Gold': 5500,
                     '24K Gold': 7450,
                     'Silver': 88.50
                 });
@@ -43,7 +43,7 @@ export default function GoldRatePage() {
     }, []);
 
     const handleCalculate = () => {
-        const w = parseFloat(weight);
+        const w = weight;
         if (!w || isNaN(w) || !rates) return;
 
         const rate = rates[purity as keyof typeof rates];
@@ -56,7 +56,7 @@ export default function GoldRatePage() {
             <div className="pt-32 pb-20">
                 <div className="container mx-auto px-6 mb-12 text-center">
                     <h1 className="text-4xl md:text-5xl font-serif text-black mb-4">Live Gold Rates</h1>
-                    <p className="text-gray-600">Real-time updates for 22K, 24K Gold and Silver.</p>
+                    <p className="text-gray-600">Real-time updates for 18K, 24K Gold and Silver.</p>
                 </div>
 
                 <GoldRateTicker />
@@ -72,7 +72,7 @@ export default function GoldRatePage() {
                                 <input
                                     type="number"
                                     value={weight}
-                                    onChange={(e) => setWeight(e.target.value)}
+                                    onChange={(e) => setWeight(Number(e.target.value))}
                                     className="w-full px-4 py-3 rounded-lg border border-gray-300 focus:border-gold outline-none text-black bg-white"
                                     placeholder="Enter weight"
                                 />
@@ -84,7 +84,7 @@ export default function GoldRatePage() {
                                     onChange={(e) => setPurity(e.target.value)}
                                     className="w-full px-4 py-3 rounded-lg border border-gray-300 focus:border-gold outline-none bg-white text-black"
                                 >
-                                    <option value="22K Gold">22K Gold</option>
+                                    <option value="18K Gold">18K Gold</option>
                                     <option value="24K Gold">24K Gold</option>
                                     <option value="Silver">Silver</option>
                                 </select>
