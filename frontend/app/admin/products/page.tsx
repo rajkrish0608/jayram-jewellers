@@ -79,7 +79,7 @@ export default function AdminProductsPage() {
                                         <tr key={product._id} className="hover:bg-gray-50 transition-colors">
                                             <td className="px-6 py-4 font-medium text-gray-800">{product.name}</td>
                                             <td className="px-6 py-4 text-gray-600">{product.category}</td>
-                                            <td className="px-6 py-4 text-gray-600">₹{product.price.toLocaleString()}</td>
+                                            <td className="px-6 py-4 text-gray-600">₹{(product.price || 0).toLocaleString()}</td>
                                             <td className="px-6 py-4 text-gray-600">{product.countInStock || 0}</td>
                                             <td className="px-6 py-4 space-x-2">
                                                 <Link href={`/admin/products/${product._id}`}>
