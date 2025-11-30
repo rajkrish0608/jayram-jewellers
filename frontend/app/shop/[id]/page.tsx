@@ -1,34 +1,73 @@
 'use client';
 
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { useParams } from 'next/navigation';
 import { Navbar } from '@/components/Navbar';
 import Footer from '@/components/Footer';
 import { Button } from '@/components/ui/Button';
 
-// Mock Data - Replace with API call later
-const PRODUCTS = [
-    {
-        id: '1',
-        name: 'Royal Kundan Necklace',
-        type: 'Necklace',
-        price: 150000,
-        weight: 25.5,
-        category: 'Necklaces',
-        description: 'A masterpiece of traditional craftsmanship, this Royal Kundan Necklace features intricate detailing and premium quality stones set in 18K gold. Perfect for weddings and special occasions.',
-        image: 'https://images.unsplash.com/photo-1599643478518-17488fbbcd75?q=80&w=1974&auto=format&fit=crop',
-        images: [
-            'https://images.unsplash.com/photo-1599643478518-17488fbbcd75?q=80&w=1974&auto=format&fit=crop',
-            'https://images.unsplash.com/photo-1605100804763-247f67b3557e?q=80&w=2070&auto=format&fit=crop', // Placeholder
-            'https://images.unsplash.com/photo-1635767798638-3e2523c96d27?q=80&w=1976&auto=format&fit=crop'  // Placeholder
-        ]
-    },
-    // ... other products (using same mock data for demo)
-];
+interface Product {
+    _id: string;
+    name: string;
+    type: string;
+    price: number;
+    weight: number;
+    category: string;
+    description: string;
+    image: string;
+}
 
 export default function ProductDetailsPage() {
     const params = useParams();
-    const product = PRODUCTS.find(p => p.id === params.id) || PRODUCTS[0]; // Fallback for demo
+    const [product, setProduct] = useState<Product | null>(null);
+    const [loading, setLoading] = useState(true);
+    const [error, setError] = useState('');
+
+    useEffect(() => {
+        const fetchProduct = async () => {
+            try {
+                const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/products/${params.id}`);
+                if (!res.ok) throw new Error('Product not found');
+                const data = await res.json();
+                setProduct(data);
+            } catch (err) {
+                console.error(err);
+                setError('Failed to load product details');
+            } finally {
+                setLoading(false);
+            }
+        };
+
+        if (params.id) {
+            fetchProduct();
+        }
+    }, [params.id]);
+
+    if (loading) {
+        return (
+            <main className="min-h-screen bg-white">
+                <Navbar />
+                <div className="pt-32 pb-20 text-center">
+                    <p className="text-xl text-gray-500">Loading product details...</p>
+                </div>
+                <Footer />
+            </main>
+        );
+    }
+
+    if (error || !product) {
+        return (
+            <main className="min-h-screen bg-white">
+                <Navbar />
+                <div className="pt-32 pb-20 text-center">
+                    <h1 className="text-2xl font-serif text-red-500 mb-4">Product Not Found</h1>
+                    <p className="text-gray-500">{error || "The product you are looking for doesn't exist."}</p>
+                    <a href="/shop" className="inline-block mt-6 text-gold hover:underline">Back to Shop</a>
+                </div>
+                <Footer />
+            </main>
+        );
+    }
 
     return (
         <main className="min-h-screen bg-white">
@@ -45,13 +84,11 @@ export default function ProductDetailsPage() {
                                 className="w-full h-full object-cover hover:scale-105 transition-transform duration-500"
                             />
                         </div>
+                        {/* 
                         <div className="grid grid-cols-3 gap-4">
-                            {product.images.map((img, idx) => (
-                                <div key={idx} className="aspect-square rounded-lg overflow-hidden cursor-pointer border border-transparent hover:border-gold transition-all">
-                                    <img src={img} alt={`View ${idx + 1}`} className="w-full h-full object-cover" />
-                                </div>
-                            ))}
+                             Placeholder for additional images if available in future 
                         </div>
+                        */}
                     </div>
 
                     {/* Product Info */}
@@ -59,7 +96,9 @@ export default function ProductDetailsPage() {
                         <div className="mb-8">
                             <span className="text-gold text-sm uppercase tracking-widest">{product.category}</span>
                             <h1 className="text-4xl md:text-5xl font-serif text-black mt-2 mb-4">{product.name}</h1>
-                            <p className="text-3xl font-light text-gray-900">Price on Request</p>
+                            <p className="text-3xl font-light text-gray-900">
+                                {product.price ? `₹${product.price.toLocaleString()}` : 'Price on Request'}
+                            </p>
                         </div>
 
                         <div className="space-y-6 mb-10">

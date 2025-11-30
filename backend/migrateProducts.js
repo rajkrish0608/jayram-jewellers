@@ -76,12 +76,14 @@ const importData = async () => {
         // For now, we'll just insert them. If you want to clear first: await Product.deleteMany();
 
         const count = await Product.countDocuments();
-        if (count === 0) {
-            await Product.insertMany(products);
-            console.log('Data Imported!');
-        } else {
-            console.log('Products already exist, skipping import.');
-        }
+
+        // Always clear existing products to ensure clean state
+        console.log('Clearing existing products...');
+        await Product.deleteMany({});
+
+        console.log('Inserting new products...');
+        await Product.insertMany(products);
+        console.log('Data Imported!');
 
         process.exit();
     } catch (error) {
