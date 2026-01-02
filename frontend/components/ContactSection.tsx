@@ -100,7 +100,7 @@ export const ContactSection = () => {
                         {/* Map Embed Placeholder */}
                         <div className="w-full h-64 bg-gray-800 rounded-lg overflow-hidden">
                             <iframe
-                                src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3770.792551881463!2d72.8776559149011!3d19.07609055693091!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3be7c6306644edc1%3A0x5da4ed8f8d648c69!2sMumbai%2C%20Maharashtra!5e0!3m2!1sen!2sin!4v1630000000000!5m2!1sen!2sin"
+                                src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3612.9810856076538!2d84.12147739999999!3d25.1025016!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x398da3ac88cb8433%3A0x389f07d5ca618c3e!2sJay%20Ram%20jewellers!5e0!3m2!1sen!2sin!4v1767340389986!5m2!1sen!2sin"
                                 width="100%"
                                 height="100%"
                                 style={{ border: 0 }}
