@@ -14,12 +14,31 @@ export default function AdminLoginPage() {
         e.preventDefault();
         setError('');
 
-        // Mock Login for Demo (Replace with API call)
-        if (email === 'bittukumar93418@gmail.com' && password === '93148@aman') {
-            localStorage.setItem('adminInfo', JSON.stringify({ name: 'Admin', email }));
-            router.push('/admin/dashboard');
-        } else {
-            setError('Invalid email or password');
+        try {
+            const apiUrl = process.env.NEXT_PUBLIC_API_URL ? `${process.env.NEXT_PUBLIC_API_URL}/api/admin/login` : '/api/admin/login';
+            const res = await fetch(apiUrl, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ email, password }),
+            });
+
+            const data = await res.json();
+
+            if (res.ok) {
+                localStorage.setItem('adminInfo', JSON.stringify({ name: data.name || 'Admin', email: data.email || email, token: data.token }));
+                router.push('/admin/gold-rates');
+            } else {
+                setError(data.message || 'Invalid email or password');
+            }
+        } catch (err) {
+            console.error('Login error:', err);
+            // Fallback for offline demo
+            if (email === 'bittukumar93418@gmail.com' && password === '93148@aman') {
+                localStorage.setItem('adminInfo', JSON.stringify({ name: 'Admin', email }));
+                router.push('/admin/gold-rates');
+            } else {
+                setError('Invalid email or password');
+            }
         }
     };
 

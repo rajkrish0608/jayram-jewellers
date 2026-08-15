@@ -13,7 +13,8 @@ export const GoldRateTicker = () => {
     useEffect(() => {
         const fetchRates = async () => {
             try {
-                const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/gold-rates`);
+                const apiUrl = process.env.NEXT_PUBLIC_API_URL ? `${process.env.NEXT_PUBLIC_API_URL}/api/gold-rates` : '/api/gold-rates';
+                const res = await fetch(apiUrl);
                 if (!res.ok) throw new Error('Failed to fetch rates');
                 const data = await res.json();
                 setRates({
